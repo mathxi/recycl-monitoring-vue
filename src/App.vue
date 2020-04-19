@@ -1,32 +1,47 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view />
+    <transition name="fade">
+      <router-view />
+    </transition>
+    <md-bottom-bar md-type="shift" md-sync-route>
+      <md-bottom-bar-item to="/" id="bottom-bar-item-home" md-label="Home" md-icon="home"></md-bottom-bar-item>
+      <md-bottom-bar-item to="/about" id="bottom-bar-item-pages" md-label="Pages" md-icon="pages"></md-bottom-bar-item>
+      <md-bottom-bar-item id="bottom-bar-item-favorites" md-label="Favorites" md-icon="favorite"></md-bottom-bar-item>
+    </md-bottom-bar>
   </div>
 </template>
 
 <style lang="scss">
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 1s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
+body {
+  font-family: "Montserrat", sans-serif !important;
+  min-height: 100vh;
+}
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  min-height: 100vh;
 }
 
-#nav {
-  padding: 30px;
+@import "~vue-material/dist/theme/engine"; // Import the theme engine
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
+@include md-register-theme(
+  "default",
+  (
+    primary: md-get-palette-color(blue, A200),
+    // The primary color of your application
+      accent: md-get-palette-color(red, A200),
+    // The accent or secondary color
+      theme: dark // This can be dark or light
+  )
+);
 
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
-}
+@import "~vue-material/dist/theme/all"; // Apply the theme
 </style>
